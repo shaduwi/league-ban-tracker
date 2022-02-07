@@ -4,7 +4,7 @@ const token = import.meta.env.VITE_API_KEY;
 // Gets summoner by summoner name
 export const getSummonerByName = async (name) => {
   try {
-    const response = await Api.get(
+    const response = await Api.getSummoner(
       `/summoner/v4/summoners/by-name/${name}?api_key=${token}`
     );
     return response;
@@ -16,8 +16,8 @@ export const getSummonerByName = async (name) => {
 // Gets matches by users puuid
 export const getMatchesByPuuid = async (puuid) => {
   try {
-    const response = await Api.get(
-      `/match/v5/matches/by-puuid/${puuid}/ids?api_key=${token}`
+    const response = await Api.getMatch(
+      `/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=1&api_key=${token}`
     );
     return response;
   } catch (error) {
@@ -28,7 +28,7 @@ export const getMatchesByPuuid = async (puuid) => {
 // Gets last played match by match ID
 export const getMatchById = async (matchId) => {
   try {
-    const response = await Api.get(
+    const response = await Api.getMatch(
       `/match/v5/matches/${matchId}?api_key=${token}`
     );
     return response;
