@@ -6,11 +6,15 @@
     getMatchById,
   } from "../api/match";
   const summonerName = "shaduwi";
-  const summonerPuuid = "";
-  getSummonerByName(summonerName).then((a) => {
-    console.log(a);
+  let summonerPuuid;
+
+  onMount(async () => {
+    const summoner = await getSummonerByName(summonerName);
+    summonerPuuid = summoner.puuid;
+    const match = await getMatchesByPuuid(summonerPuuid);
+    console.log(summonerPuuid);
+    console.log(match);
   });
-  console.log(getSummonerByName(summonerName));
 </script>
 
 <main class="bg-blue-gray-900 h-screen">
