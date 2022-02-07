@@ -1,12 +1,14 @@
 import axios from "axios";
 
+// Create a new axios api and sets baseURL
 const axiosAPI = axios.create({
   baseURL: "https://euw1.api.riotgames.com/lol/",
 });
 
+// Make an axios API request.
 const apiRequest = (method, url, request) => {
   const headers = {
-    authorization: "",
+    Authorization: "",
   };
 
   return axiosAPI({
@@ -23,7 +25,9 @@ const apiRequest = (method, url, request) => {
     });
 };
 
+// Make a GET request.
 const get = (url, request) => apiRequest("get", url, request);
+// Make a POST request.
 const post = (url, request) => apiRequest("post", url, request);
 
 const API = {
