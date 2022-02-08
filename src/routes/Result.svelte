@@ -5,15 +5,34 @@
     getMatchesByPuuid,
     getMatchById,
   } from "../api/match";
-  const summonerName = "shaduwi";
+  let summonerName = "shaduwi";
   let summonerPuuid;
+  let matchDate;
+  let match;
+  let diff;
 
   onMount(async () => {
-    const summoner = await getSummonerByName(summonerName);
-    summonerPuuid = summoner.puuid;
-    const match = await getMatchesByPuuid(summonerPuuid);
-    console.log(summonerPuuid);
-    console.log(match);
+    summonerPuuid = await getSummonerByName(summonerName);
+    summonerPuuid = summonerPuuid.puuid;
+
+    match = await getMatchesByPuuid(summonerPuuid);
+
+    matchDate = await getMatchById(match);
+    matchDate = matchDate.info.gameEndTimestamp;
+
+    console.log(matchDate);
+    let dateDiff = new Date(Date.now() - matchDate);
+    diff =
+      "Months " +
+      dateDiff.getMonth() +
+      ", Days " +
+      dateDiff.getDay() +
+      ", Hours " +
+      dateDiff.getHours() +
+      ", Minutes " +
+      dateDiff.getMinutes();
+
+    console.log(diff);
   });
 </script>
 
@@ -21,9 +40,6 @@
   <div class="flex flex-col items-center w-screen">
     <h1 class="text-white text-7xl mt-20">yes he is banned :)</h1>
     <h2 class="text-white text-3xl mt-5">the users name is: {summonerName}</h2>
-    <h2 class="text-white text-3xl mt-5">
-      the users puuid is: {summonerPuuid}
-    </h2>
 
     <div class="relative mt-10">
       <input
