@@ -2,6 +2,10 @@
   export let name;
   import { navigate } from "svelte-routing";
   function onSubmit() {
+    if (name == null || name.trim() === "") {
+      alert("You need to fill in a name");
+      return;
+    }
     navigate("/result/" + name);
   }
 </script>
