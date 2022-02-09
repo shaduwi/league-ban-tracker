@@ -30,9 +30,10 @@
     d.setSeconds(dateDiff);
     if (matchDate !== undefined) {
       lastMatchMessage =
-        d.getDate() +
+        d.getDate() -
+        1 +
         " days " +
-        d.getHours() +
+        (d.getHours() - 1) +
         " hours " +
         d.getMinutes() +
         " minutes ago";
