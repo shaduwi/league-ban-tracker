@@ -33,14 +33,14 @@
         d.getDate() -
         1 +
         " days " +
-        (d.getHours() - 1) +
+        d.getHours() +
         " hours " +
         d.getMinutes() +
         " minutes ago";
     } else {
       lastMatchMessage = "not found";
     }
-    console.log(matchDate);
+
     if (d.getDate() < 30) {
       bannedMessage = "not banned";
     }
