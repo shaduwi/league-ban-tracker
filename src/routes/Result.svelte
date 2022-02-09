@@ -1,58 +1,72 @@
 <script>
+  import SummonerInput from "../components/summonerInput.svelte";
   import { onMount } from "svelte";
   import {
     getSummonerByName,
     getMatchesByPuuid,
     getMatchById,
   } from "../api/match";
-  let summonerName = "shaduwi";
+
+  export let summonerName;
   let summonerPuuid;
-  let matchDate;
-  let match;
-  let diff;
+  let lastMatchMessage;
+  let bannedMessage = "banned";
+  let bannedDescription = "";
 
   onMount(async () => {
     summonerPuuid = await getSummonerByName(summonerName);
     summonerPuuid = summonerPuuid.puuid;
 
-    match = await getMatchesByPuuid(summonerPuuid);
+    let match = await getMatchesByPuuid(summonerPuuid);
 
-    matchDate = await getMatchById(match);
+    let matchDate = await getMatchById(match);
     matchDate = matchDate.info.gameEndTimestamp;
 
-    console.log(matchDate);
-    let dateDiff = new Date(Date.now() - matchDate);
-    diff =
-      "Months " +
-      dateDiff.getMonth() +
-      ", Days " +
-      dateDiff.getDay() +
-      ", Hours " +
-      dateDiff.getHours() +
-      ", Minutes " +
-      dateDiff.getMinutes();
+    let currTime = new Date().getTime();
 
-    console.log(diff);
+    let dateDiff = (currTime - matchDate) / 1000;
+
+    let d = new Date(0);
+    d.setSeconds(dateDiff);
+    if (matchDate !== undefined) {
+      lastMatchMessage =
+        d.getDate() +
+        " days " +
+        d.getHours() +
+        " hours " +
+        d.getMinutes() +
+        " minutes ago";
+    } else {
+      lastMatchMessage = "not found";
+    }
+    console.log(matchDate);
+    if (d.getDate() < 30) {
+      bannedMessage = "not banned";
+    }
+    if (d.getDate() > 30) {
+      bannedMessage = "probably banned";
+      bannedDescription = "has not played a game in the last 30 days";
+    }
+    if (d.getDate() > 365) {
+      bannedMessage = "banned";
+      bannedDescription = "has not played a game in a year";
+    }
   });
 </script>
 
 <main class="bg-blue-gray-900 h-screen">
   <div class="flex flex-col items-center w-screen">
-    <h1 class="text-white text-7xl mt-20">yes he is banned :)</h1>
-    <h2 class="text-white text-3xl mt-5">the users name is: {summonerName}</h2>
-
-    <div class="relative mt-10">
-      <input
-        class="h-14 min-w-124 px-5 rounded-lg focus:shadow focus:outline-none"
-        type="text"
-        placeholder="Enter summoner name..."
-      />
-      <div class="absolute top-2 right-2">
-        <button
-          class="h-10 w-20 text-white rounded-lg bg-blue-500 hover:bg-blue-600"
-          >Search</button
-        >
-      </div>
-    </div>
+    {#if summonerPuuid}
+      <h1 class="text-white text-7xl mt-20">
+        {summonerName} is {bannedMessage}
+      </h1>
+      <h2 class="text-white text-3xl mt-5">
+        Their last match was {lastMatchMessage}
+      </h2>
+      <h4 class="text-gray-500">{bannedDescription}</h4>
+    {:else}
+      <h1 class="text-white text-7xl mt-20">This user was not found</h1>
+    {/if}
+    <SummonerInput name="" />
   </div>
 </main>
