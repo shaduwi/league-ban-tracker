@@ -2,7 +2,7 @@
   export let name;
   import { navigate } from "svelte-routing";
   function onSubmit() {
-    navigate("/result/" + name, { replace: true });
+    navigate("/result/" + name);
   }
 </script>
 
