@@ -1,9 +1,13 @@
 <script>
   export let name;
+  import { navigate } from "svelte-routing";
+  function onSubmit() {
+    navigate("/result/" + name, { replace: true });
+  }
 </script>
 
 <div class="relative mt-10">
-  <form action="/result/{name}">
+  <form on:submit={onSubmit}>
     <input
       class="h-14 min-w-124 px-5 rounded-lg focus:shadow focus:outline-none"
       type="text"
