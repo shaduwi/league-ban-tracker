@@ -10,6 +10,7 @@ export const getSummonerByName = async (name) => {
     return response;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -22,6 +23,7 @@ export const getMatchesByPuuid = async (puuid) => {
     return response;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -34,5 +36,6 @@ export const getMatchById = async (matchId) => {
     return response;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
