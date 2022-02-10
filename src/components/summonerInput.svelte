@@ -6,7 +6,7 @@
       alert("You need to fill in a name");
       return;
     }
-    navigate("/result/" + name);
+    navigate("/result/" + name, { replace: true });
   }
 </script>
 
