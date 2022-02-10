@@ -6,7 +6,7 @@
 </script>
 
 <Router {url}>
-  <div>
+  <div class="bg-blue-gray-900">
     <Route path="/" component={Home} />
     <Route path="result/:id" let:params>
       <Result summonerName={params.id} />
