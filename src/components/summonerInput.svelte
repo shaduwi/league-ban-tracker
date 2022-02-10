@@ -1,12 +1,13 @@
 <script>
   export let name;
   import { navigate } from "svelte-routing";
-  function onSubmit() {
+  function onSubmit(e) {
+    e.preventDefault();
     if (name == null || name.trim() === "") {
       alert("You need to fill in a name");
       return;
     }
-    navigate("/result/" + name, { replace: true });
+    navigate("/result/" + name);
   }
 </script>
 
