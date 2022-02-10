@@ -23,24 +23,26 @@
     matchDate = matchDate.info.gameEndTimestamp;
 
     let currTime = new Date().getTime();
+    currTime -= new Date().getTimezoneOffset() * 1000 * -1;
 
-    let dateDiff = (currTime - matchDate) / 1000;
+    let dateDiff = Math.abs(currTime - matchDate) / 1000;
+    var days = Math.floor(dateDiff / 86400);
+    dateDiff -= days * 86400;
+
+    var hours = Math.floor(dateDiff / 3600) % 24;
+    dateDiff -= hours * 3600;
+
+    var minutes = Math.floor(dateDiff / 60) % 60;
+    dateDiff -= minutes * 60;
 
     let d = new Date(0);
     d.setSeconds(dateDiff);
     if (matchDate !== undefined) {
       lastMatchMessage =
-        d.getDate() -
-        1 +
-        " days " +
-        d.getHours() +
-        " hours " +
-        d.getMinutes() +
-        " minutes ago";
+        days + " days " + hours + " hours " + minutes + " minutes ago";
     } else {
       lastMatchMessage = "not found";
     }
-
     if (d.getDate() < 30) {
       bannedMessage = "not banned";
     }
